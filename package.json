@@ -1,0 +1,27 @@
+{
+  "name": "linked-lists",
+  "version": "1.0.0",
+  "description": "A linked list is a linear collection of data elements called nodes that “point” to the next node by means of a pointer.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EmrahIso/Linked-Lists.git"
+  },
+  "author": "Emrah Isovic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EmrahIso/Linked-Lists/issues"
+  },
+  "type": "module",
+  "homepage": "https://github.com/EmrahIso/Linked-Lists#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.19.0",
+    "eslint": "^9.19.0",
+    "eslint-config-prettier": "^10.0.1",
+    "globals": "^15.14.0",
+    "prettier": "3.4.2"
+  }
+}
