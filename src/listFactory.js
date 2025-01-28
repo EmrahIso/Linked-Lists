@@ -4,17 +4,20 @@ function LinkedList() {
   let headNode = null;
 
   const append = (value) => {
-    const findLastNode = (node) => {
-      if (node === null) {
-        headNode = Node(value);
-      } else if (node.nextNode === null) {
-        node.nextNode = Node(value);
-      } else {
-        findLastNode(node.nextNode);
-      }
-    };
+    let currentNode = headNode;
 
-    findLastNode(headNode);
+    if (headNode === null) {
+      headNode = Node(value);
+    }
+
+    while (currentNode !== null) {
+      if (currentNode.nextNode === null) {
+        currentNode.nextNode = Node(value);
+        break;
+      } else {
+        currentNode = currentNode.nextNode;
+      }
+    }
   };
 
   const prepend = (value) => {
@@ -25,124 +28,161 @@ function LinkedList() {
   };
 
   const size = () => {
-    const findLastNode = (node) => {
-      if (node === null) {
-        return 0;
-      } else if (node.nextNode === null) {
-        return 1;
-      } else {
-        return 1 + findLastNode(node.nextNode);
-      }
-    };
+    let currentNode = headNode;
 
-    return findLastNode(headNode);
+    if (headNode === null) return 0;
+
+    let counter = 0;
+
+    while (currentNode !== null) {
+      counter++;
+      currentNode = currentNode.nextNode;
+    }
+
+    return counter;
   };
 
   const head = () => headNode;
 
   const tail = () => {
-    const findLastNode = (node) => {
-      if (node === null || node.nextNode === null) {
-        return node;
-      }
-      return findLastNode(node.nextNode);
-    };
+    let currentNode = headNode;
 
-    return findLastNode(headNode);
+    if (headNode === null) return headNode;
+
+    while (currentNode !== null) {
+      if (currentNode.nextNode === null) return currentNode;
+      currentNode = currentNode.nextNode;
+    }
   };
 
   const atIndex = (index) => {
-    const findIndex = (node, targetIndex, currentIndex = 0) => {
-      if (targetIndex === currentIndex) {
-        return node;
-      } else if (node === null) {
-        return null;
+    let currentNode = headNode;
+
+    if (headNode === null) return 0;
+
+    let counter = 0;
+
+    while (currentNode !== null) {
+      if (index === counter) {
+        return currentNode;
+      } else {
+        counter++;
+        currentNode = currentNode.nextNode;
       }
+    }
 
-      return findIndex(node.nextNode, targetIndex, ++currentIndex);
-    };
-
-    return findIndex(headNode, index);
+    return null;
   };
 
   const pop = () => {
-    const findLastNode = (node) => {
-      if (node.nextNode === null) {
-        headNode = null;
-      } else if (node.nextNode.nextNode === null) {
-        node.nextNode = null;
-      } else {
-        findLastNode(node.nextNode);
-      }
-    };
+    let currentNode = headNode;
 
-    findLastNode(headNode);
+    if (headNode === null) {
+      return;
+    } else if (headNode.nextNode === null) {
+      headNode = null;
+    }
+
+    while (currentNode.nextNode !== null) {
+      if (currentNode.nextNode.nextNode === null) {
+        currentNode.nextNode = null;
+      } else {
+        currentNode = currentNode.nextNode;
+      }
+    }
   };
 
   const contains = (value) => {
-    const findValue = (node, value) => {
-      if (node === null) {
-        return false;
-      } else if (node.value === value) {
+    let currentNode = headNode;
+
+    if (headNode === null) {
+      return false;
+    }
+
+    while (currentNode !== null) {
+      if (currentNode.value === value) {
         return true;
+      } else {
+        currentNode = currentNode.nextNode;
       }
+    }
 
-      return findValue(node.nextNode, value);
-    };
-
-    return findValue(headNode, value);
+    return false;
   };
 
   const find = (value) => {
-    const findValue = (node, value, index = 0) => {
-      if (node === null) {
-        return null;
-      } else if (node.value === value) {
+    let currentNode = headNode;
+
+    if (headNode === null) return null;
+
+    let index = 0;
+
+    while (currentNode !== null) {
+      if (currentNode.value === value) {
         return index;
+      } else {
+        index++;
+        currentNode = currentNode.nextNode;
       }
+    }
 
-      return findValue(node.nextNode, value, ++index);
-    };
-
-    return findValue(headNode, value);
+    return null;
   };
 
   const toString = () => {
-    const iteration = (node) => {
-      if (node === null) {
-        return 'null';
-      }
-      return `( ${node.value} ) -> ` + iteration(node.nextNode);
-    };
+    let currentNode = headNode;
 
-    return iteration(headNode);
+    if (headNode === null) {
+      return 'null';
+    }
+
+    let result = '';
+
+    while (currentNode !== null) {
+      result += `( ${currentNode.value} ) -> `;
+      currentNode = currentNode.nextNode;
+    }
+
+    return result + 'null';
   };
 
   const insertAt = (value, index) => {
+    let currentNode = headNode;
+
     const newNode = Node(value);
 
-    const findIndex = (node, targetIndex, currentIndex = 0) => {
-      if (targetIndex - 1 === currentIndex) {
-        newNode.nextNode = node.nextNode;
-        node.nextNode = newNode;
-      } else {
-        findIndex(node.nextNode, targetIndex, ++currentIndex);
-      }
-    };
+    if (headNode === null) {
+      headNode = newNode;
+      return;
+    }
 
-    findIndex(headNode, index);
+    for (let counter = 0; counter < index; counter++) {
+      if (currentNode.nextNode === null) {
+        currentNode.nextNode = newNode;
+        break;
+      } else if (index - 1 === counter) {
+        newNode.nextNode = currentNode.nextNode;
+        currentNode.nextNode = newNode;
+        break;
+      } else {
+        currentNode = currentNode.nextNode;
+      }
+    }
   };
 
   const removeAt = (index) => {
-    const findIndex = (node, targetIndex, currentIndex = 0) => {
-      if (targetIndex - 1 === currentIndex) {
-        node.nextNode = node.nextNode.nextNode;
-      } else {
-        findIndex(node.nextNode, targetIndex, ++currentIndex);
-      }
-    };
+    let currentNode = headNode;
 
-    findIndex(headNode, index);
+    if (headNode === null) return;
+
+    for (let counter = 0; counter < index; counter++) {
+      if (index - 1 === counter) {
+        currentNode.nextNode = currentNode.nextNode.nextNode;
+        break;
+      } else {
+        currentNode = currentNode.nextNode;
+      }
+    }
   };
 
   return {
